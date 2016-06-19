@@ -108,12 +108,13 @@ function expandBook(me) {
   <div class="page-header">
     <h2>所有主播</h2>
   </div>
-  {% for room in rooms|dictsort:"audience_c" %}
+  {% for room in rooms|dictsortreversed:"audience_c" %}
   <div class="col-6 col-sm-6 col-lg-3">  
       <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" href="{{room.url}}">
       <div class="caption"></div>
       <p>主播：{{room.anchor}}</p>
-      <p>房间名：{{room.room_name}}</p>
+      <p>房间：{{room.room_name}}</p>
+      <p>平台：{{room.room_name}}</p>
       {% comment %}
       <div>{% include 'crike_django/lesson_result.html' %}</div>
       {% endcomment %}
