@@ -1,3 +1,4 @@
+from live_portal.views import *
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
@@ -5,6 +6,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^/?$', ShowAllView.as_view(), name='showall'),
+    url(r'^showall$', ShowAllView.as_view(), name='showall'),
     # Examples:
     # url(r'^$', 'live_portal.views.home', name='home'),
     # url(r'^live_portal/', include('live_portal.foo.urls')),

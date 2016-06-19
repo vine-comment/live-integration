@@ -1,0 +1,307 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LIVE portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'font-awesome/4.0.3/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'twitter-bootstrap/3.0.3/css/bootstrap.min.css' %}" rel="stylesheet">
+ 
+<!-- 
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+ -->
+    <!-- <link href="http://cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"> -->
+    <style type="text/css">
+      body {
+        padding-top: 41px;
+        padding-bottom: 40px;
+				background-color: #c8c8c8;
+        /*background-image: url({% static 'images/background/bg.jpg' %});
+				background-size: cover;*/
+      }
+      .navbar-brand {
+        padding: 10px;
+      }
+      h1, h2, h3, h4, h5 {
+        color: #662680;
+      }
+      h1, h2, h3, h4, h5, p, div, form {
+        font-family:microsoft yahei;
+      }
+      
+      {% include "css/navbar_purple.css" %}
+      
+.subjectbar {
+  z-index: 900;
+  min-height: 0px;
+}
+
+.subjects-toggle {
+  background-image: none !important;
+  color: #e84d1a;
+  clear: both; }
+
+.subjects {
+  /* margin: 20px 0 20px 0; */
+  /* clear: both; */
+}
+
+.subjects .nav li {
+position: relative;
+vertical-align: middle;
+line-height: 15px; }
+@media screen and (min-width: 1024px) {
+.subjects .nav li {
+/*      border-left: 1px solid #c8c8c8; */ }
+.subjects .nav li .subject-title {
+max-width: 100px; } }
+.subjects .nav li div {
+display: table-cell;
+vertical-align: middle; }
+.subjects .nav li .subject-chevron {
+color: #e84d1a; }
+.subjects .nav li .subject-title {
+padding: 0 10px 0 10px; }
+.subjects .nav li a {
+font-size: 12px;
+color: #000;
+text-transform: capitalize;
+display: block;
+line-height: 30px;
+padding: 5px 10px 5px 10px; }
+.subjects .nav :first-child {
+/*  border-left: none; */}
+@media screen and (min-width: 768px) {
+.subject-header-container2 {
+height: 300px;
+padding: 50px;
+background-image: url({% static 'images/background/subject-pattern2.png' %}); }
+.subject-header-container {
+height: 300px;
+padding: 50px;
+background-image: url({% static 'images/background/subject-pattern.png' %}); }
+.subject-header-container .subject-header {
+height: 200px;
+line-height: 200px;
+position: relative;
+vertical-align: middle; }
+.subject-header-container .subject-header .subject-header-icon, .subject-header-container .subject-header .subject-header-description {
+height: 200px; }
+.subject-header-container .subject-header .subject-header-icon {
+vertical-align: middle; }
+.subject-header-container .subject-header .subject-header-icon img, .subject-header-container .subject-header .subject-header-icon object {
+background-color: #fff;
+padding: 30px;
+margin-left: -10px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+-ms-border-radius: 4px;
+-o-border-radius: 4px;
+border-radius: 4px; }
+.subject-header-container .subject-header .subject-header-description {
+margin-top: 2px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+-ms-border-radius: 4px;
+-o-border-radius: 4px;
+border-radius: 4px;
+background-color: #fff;
+line-height: 15px;
+padding: 10px 10px 0 20px; }
+.subject-header-container .subject-header .subject-header-description h1 {
+text-transform: capitalize; }
+.subject-header-container .subject-header .subject-header-description p {
+font-size: 16px; } }
+/* for popup */
+.alert-messages {
+position: fixed;
+top: 47px;
+left: 0;
+right: 0;
+z-index: 7000;
+}
+
+.message {
+position: relative;
+width: 500px;
+padding: 10px 12px;
+margin: 0 auto;
+text-shadow: 0 -1px 1px rgba(0,0,0,.5);
+background: #111;
+background: rgba(20,20,20,.9);
+border-radius: 6px;
+-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+box-shadow: 0 2px 4px rgba(0,0,0,.25);
+}
+
+.message .message-text {
+display: block;
+margin-right: 20px;
+color: #ccc;
+font-size: 12px;
+line-height: 16px;
+text-align: center;
+}
+
+
+    </style>
+
+    {% block header %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div class="navbar-xs">
+    <div class="navbar-primary">
+    <div class="navbar navbar-inverse navbar-fixed-top subjectbar" role="navigation">
+      <div class="container">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle subjects-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand nav" href="/showall">LIVE portal</a>
+        </div>
+
+        <div class="navbar-collapse collapse subjects">
+          <ul class="nav navbar-nav">
+            <li class="showall"><a href="/showall">所有主播</a></li>
+            <li class="xxx"><a href="#">xxxxxx</a></li>
+          </ul>
+          {% if user.is_authenticated %}
+          {% else %}
+          <!-- 弹出框相关 -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" data-toggle="modal" data-target="#loginModal">登录</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#registerModal">注册</a></li>
+          </ul>
+          {% endif %}
+
+            </div><!-- /.nav-collapse -->
+        </div>
+    </div>
+    </div><!-- /.navbar-xs -->
+    </div><!-- /.navbar-primary -->
+
+    <div class="container_header">
+    {% block container_header %}
+    {% endblock %}
+    </div>
+    <div class="container">
+      {% comment %}
+
+      <!-- 登录：Modal 弹出框 -->
+      <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h2 class="modal-title" id="myModalLabel">登录</h4>
+            </div>
+            <div class="modal-body">
+              <form id="login-form" class="form-inline" action="#" method="post">
+                {% csrf_token %}
+                <style type="text/css">
+                  .modal-body .input-group {
+                    margin-bottom: 10px;
+                  }
+                </style>
+                <div class="input-group margin-bottom-sm">
+                  <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                  <input id="id_username" name="username" class="form-control" type="text" placeholder="邮箱 或 用户名"/>
+                </div>
+
+                <!-- XXX 这个form的实现简单暴力，应该考虑参考registration/login.html的form field调用方法，调用auth里的form，避免升级时出问题 -->
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                  <input id="id_password" name="password" class="form-control" type="password" placeholder="密码"/>
+                </div>
+
+                <label class="checkbox">
+                  <input type="checkbox" value="remember-me"> 记住我
+                </label>
+               <button class="btn btn-large btn-primary" type="submit" value="Log in">登录</button>
+              </form>
+              <p><a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans '重设密码' %}</a></p>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- 注册：Modal 弹出框 -->
+      <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">注册</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form" method="post" action="{% url 'registration_register' %}">
+                {% csrf_token %}
+                {{ registration_form|crispy }}
+                <div class="control-group">
+                  <div class="controls">
+                    <button type="submit" class="btn">注册</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      {% endcomment %}
+
+      {% block container %}
+      {% endblock %}
+      {% block content %}
+      {% endblock %}
+      {% block body_footer %}
+      {% endblock %}
+        <footer>
+        <ul class="list-inline">
+          <li><a href="help">帮助</a></li>
+          <li><a href="policy">隐私政策</a></li>
+          <li><a href="terms">服务条款</a></li>
+          <li>VINE</li>
+          <li><a href="#">geekan&geekben</a> &copy; <a href='https://github.com/crike/crike'>CrikeProject</a> 2013</li>
+        </ul>
+        </footer>
+
+    </div> <!-- /container -->
+
+    <script src="{% static 'jquery/2.0.3/jquery.min.js' %}"></script>
+    <script src="{% static 'twitter-bootstrap/3.0.3/js/bootstrap.min.js' %}"></script>
+<!-- 
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+ -->
+    <script type="text/javascript">$('a').tooltip();</script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/wysihtml5/0.3.0/wysihtml5.min.js"></script>
+    <![endif]-->
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.js"></script> -->
+
+<!--[if lt IE 9]>
+  <script src="http://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+  <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->  
+  </body>
+</html>

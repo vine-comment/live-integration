@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+<style type="text/css">
+#padding-top {
+    padding-top: 20px;
+}
+.thumbnail p {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+</style>
+<!-- <link href="/static/index.css" rel="stylesheet" type="text/css"/> -->
+{% endblock %}
+
+{% block content %}
+<script>
+  //solve the csrf token issue
+  function getCookie(name)
+  {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+   
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+ 
+  function addToMine(lessonid) {
+    //solve the csrf token issue
+    $.ajaxSetup({ 
+         beforeSend: function(xhr, settings) {
+             if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                 // Only send the token to relative URLs i.e. locally.
+                 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+             }
+         } 
+    });
+
+    $.post("/lessonschoose/", {id: lessonid })
+    .done(function(){
+      popup_message("已提交课程申请");
+      {% if user.teacher %}
+        window.location.href = '{% url "lessons_choose_view" %}';
+      {% endif %}
+    });
+  };
+
+function popup_message(text)
+{
+    $('#message-drawer .message-text').text(text);
+    $('#message-drawer').show();
+    $('#message-drawer').fadeTo("fast", 1.0);
+    $('#message-drawer').fadeTo(3000, 0, function(){
+        $(this).hide();
+    }); 
+};
+
+function expandBook(me) {
+  var content = $(me).parents('.panel-primary').find('.panel-body');
+  if (content.is(":visible")) {
+    content.hide();
+    $(me).find('i').prop('class','fa fa-caret-right');
+  } else {
+    content.show();
+    $(me).find('i').prop('class','fa fa-caret-down');
+  }
+};
+</script>
+<div class="alert-messages" id="message-drawer" style="opacity: 0; top: 60px; display: none;">                                                    
+ <div class="message ">
+   <div class="message-inside">
+     <span class="message-text"></span>
+     <a class="dismiss" href="#" style="display: none;">×</a>
+   </div>
+ </div>
+</div>
+<div id='padding-top'></div>
+<div class='row'>
+<div class="container subject-header-container clearfix">
+        <div class="col-sm-12 col-md-10 col-md-offset-1 subject-header">
+            <div class="subject-header-icon col-md-3 hidden-xs hidden-sm">
+                <img src="{% static 'images/small/efk_icon_healthskills_140x140.png' %}">
+            </div>
+            <div class="col-sm-12 col-md-9 subject-header-description">
+                <h1>LIVE portal -- 你要看的直播都在这里</h1>
+                <p>敬请期待定制主页</p>
+                <!--<p>支持我们对电子课程的开发 —— 向我们<abbr title='暂时不支持此功能'>捐献</a></p>-->
+                <a title="返回" href="/showall">返回首页</a>
+            </div>
+        </div>
+</div>
+</div>
+<br/>
+<br/>
+<!-- Cycle through entries -->
+  <div class="page-header">
+    <h2>所有主播</h2>
+  </div>
+  {% for room in rooms|dictsort:"audience_c" %}
+  <div class="col-6 col-sm-6 col-lg-3">  
+      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" href="{{room.url}}">
+      <div class="caption"></div>
+      <p>主播：{{room.anchor}}</p>
+      <p>房间名：{{room.room_name}}</p>
+      {% comment %}
+      <div>{% include 'crike_django/lesson_result.html' %}</div>
+      {% endcomment %}
+      <p style="color:sienna;">人气：{{room.audience_c}}</p>
+    </a>
+  </div>
+  {% endfor %}
+
+  <span id="dummy"></span>
+{% endblock %}
