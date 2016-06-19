@@ -9,8 +9,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from live_portal.models import *
 
-class ShowAllView(TemplateView):
-    template_name = 'live_portal_showall.html'
+class ShowView(TemplateView):
+    template_name = 'live_portal_show.html'
     ''' 
     try:
         conn=MySQLdb.connect(host='localhost',user='root',passwd='Intel132',port=3306)
@@ -41,6 +41,19 @@ class ShowAllView(TemplateView):
     except MySQLdb.Error,e:
          print "Mysql Error %d: %s" % (e.args[0], e.args[1])
     '''
-    def get(self, request, *args, **kwargs):
-        rooms = Room.objects.all()
-        return render(request, self.template_name, {'rooms':rooms})
+    def get(self, request, tag):
+        if not tag:
+            rooms = Room.objects.all()
+        else:
+            rooms = Room.objects.filter(tag=tag)
+
+        if not tag:
+            tag = u'所有'
+        elif tag == 'music':
+            tag = u'音乐'
+        elif tag == 'sport':
+            tag = u'体育'
+        elif tag == 'game':
+            tag = u'游戏'
+        return render(request, self.template_name,
+                {'tag':tag, 'rooms':rooms})

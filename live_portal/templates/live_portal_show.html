@@ -97,7 +97,7 @@ function expandBook(me) {
                 <h1>LIVE portal -- 你要看的直播都在这里</h1>
                 <p>敬请期待定制主页</p>
                 <!--<p>支持我们对电子课程的开发 —— 向我们<abbr title='暂时不支持此功能'>捐献</a></p>-->
-                <a title="返回" href="/showall">返回首页</a>
+                <a title="返回" href="/show">返回首页</a>
             </div>
         </div>
 </div>
@@ -106,7 +106,7 @@ function expandBook(me) {
 <br/>
 <!-- Cycle through entries -->
   <div class="page-header">
-    <h2>所有主播</h2>
+      <h2>{{tag}}主播</h2>
   </div>
   {% for room in rooms|dictsortreversed:"audience_c" %}
   <div class="col-6 col-sm-6 col-lg-3">  

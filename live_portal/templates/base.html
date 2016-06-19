@@ -171,13 +171,15 @@ text-align: center;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand nav" href="/showall">LIVE portal</a>
+          <a class="navbar-brand nav" href="/">LIVE portal</a>
         </div>
 
         <div class="navbar-collapse collapse subjects">
           <ul class="nav navbar-nav">
-            <li class="showall"><a href="/showall">所有主播</a></li>
-            <li class="xxx"><a href="#">xxxxxx</a></li>
+            <li class="showall"><a href="/show">所有主播</a></li>
+            <li class="showsport"><a href="/show/sport">运动</a></li>
+            <li class="showmuisc"><a href="/show/music">音乐</a></li>
+            <li class="showgame"><a href="/show/game">游戏</a></li>
           </ul>
           {% if user.is_authenticated %}
           {% else %}
