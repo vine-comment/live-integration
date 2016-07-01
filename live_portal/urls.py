@@ -6,8 +6,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^/?$', ShowView.as_view(), name='home'),
     url(r'^show/(?P<tag>.*?)/?$', ShowView.as_view(), name='show'),
+    url(r'^/?$', HomeView.as_view(), name='home'),
     # Examples:
     # url(r'^$', 'live_portal.views.home', name='home'),
     # url(r'^live_portal/', include('live_portal.foo.urls')),
