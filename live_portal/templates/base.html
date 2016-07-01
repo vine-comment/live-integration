@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+{% load tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,8 @@
       body {
         padding-top: 41px;
         padding-bottom: 40px;
-				background-color: #c8c8c8;
+				background-color: #eee;/*#c8c8c8;*/
+        background-image: url(http://www.anwcl.com/background/gray.jpg);
         /*background-image: url({% static 'images/background/bg.jpg' %});
 				background-size: cover;*/
       }
@@ -37,6 +39,8 @@
       h1, h2, h3, h4, h5, p, div, form {
         font-family:microsoft yahei;
       }
+
+      .thumbnail p {margin: 0;}
       
       {% include "css/navbar_purple.css" %}
       
@@ -86,21 +90,21 @@ height: 300px;
 padding: 50px;
 background-image: url({% static 'images/background/subject-pattern2.png' %}); }
 .subject-header-container {
-height: 300px;
-padding: 50px;
-background-image: url({% static 'images/background/subject-pattern.png' %}); }
+height: 100px;
+padding: 10px;
+/*background-image: url({% static 'images/background/subject-pattern.png' %});*/ }
 .subject-header-container .subject-header {
-height: 200px;
-line-height: 200px;
+height: 100px;
+line-height: 15px;
 position: relative;
 vertical-align: middle; }
 .subject-header-container .subject-header .subject-header-icon, .subject-header-container .subject-header .subject-header-description {
-height: 200px; }
+height: 150px; }
 .subject-header-container .subject-header .subject-header-icon {
 vertical-align: middle; }
 .subject-header-container .subject-header .subject-header-icon img, .subject-header-container .subject-header .subject-header-icon object {
 background-color: #fff;
-padding: 30px;
+padding: 10px;
 margin-left: -10px;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
@@ -120,7 +124,7 @@ padding: 10px 10px 0 20px; }
 .subject-header-container .subject-header .subject-header-description h1 {
 text-transform: capitalize; }
 .subject-header-container .subject-header .subject-header-description p {
-font-size: 16px; } }
+font-size: 10px; } }
 /* for popup */
 .alert-messages {
 position: fixed;
@@ -176,18 +180,36 @@ text-align: center;
 
         <div class="navbar-collapse collapse subjects">
           <ul class="nav navbar-nav">
-            <li class="showall"><a href="/show">所有主播</a></li>
-            <li class="showsport"><a href="/show/sport">运动</a></li>
-            <li class="showmuisc"><a href="/show/music">音乐</a></li>
-            <li class="showgame"><a href="/show/game">游戏</a></li>
+            <li class="{% active request 'show/?$' %}"><a href="/show">所有主播</a></li>
+            <li class="{% active request '英雄联盟$' %}"><a href="/show/英雄联盟">英雄联盟</a></li>
+            <li class="{% active request '炉石传说$' %}"><a href="/show/炉石传说">炉石传说</a></li>
+            <li class="{% active request 'DOTA2$' %}"><a href="/show/DOTA2">DOTA2</a></li>
+            <li class="{% active request '主机游戏$' %}"><a href="/show/主机游戏">主机游戏</a></li>
+            <li class="{% active request '守望先锋$' %}"><a href="/show/守望先锋">守望先锋</a></li>
+            <li class="{% active request '元气领域$' %}"><a href="/show/元气领域">元气领域</a></li>
+            <li class="{% active request '娱乐联萌$' %}"><a href="/show/娱乐联萌">娱乐联萌</a></li>
+            <li class="{% active request '全民星秀$' %}"><a href="/show/全民星秀">全民星秀</a></li>
+            <!--
+              <li class="showall {% active request 'show/?$' %}"><a href="/show">所有主播</a></li>
+            <li class="showyxlm {% active request 'yxlm$' %}"><a href="/show/yxlm">英雄联盟</a></li>
+            <li class="showlscs {% active request 'lscs$' %}"><a href="/show/lscs">炉石传说</a></li>
+            <li class="showdota2 {% active request 'dota2$' %}"><a href="/show/dota2">DOTA2</a></li>
+            <li class="showzjyx {% active request 'zjyx$' %}"><a href="/show/zjyx">主机游戏</a></li>
+            <li class="showswxf {% active request 'swxf$' %}"><a href="/show/swxf">守望先锋</a></li>
+            <li class="showyqly {% active request 'yqly$' %}"><a href="/show/yqly">元气领域</a></li>
+            <li class="showyllm {% active request 'yllm$' %}"><a href="/show/yllm">娱乐联萌</a></li>
+            <li class="showqmxx {% active request 'qmmx$' %}"><a href="/show/qmmx">全民星秀</a></li>
+            <li class="showqmhw {% active request 'qmhw$' %}"><a href="/show/qmhw">全民户外</a></li>
+            -->
+            <!-- <li class="shownt {% active request 'nt$' %}"><a href="/show/nt">女团</a></li> -->
           </ul>
           {% if user.is_authenticated %}
           {% else %}
           <!-- 弹出框相关 -->
-          <ul class="nav navbar-nav navbar-right">
+          <!--ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#loginModal">登录</a></li>
             <li><a href="#" data-toggle="modal" data-target="#registerModal">注册</a></li>
-          </ul>
+          </ul-->
           {% endif %}
 
             </div><!-- /.nav-collapse -->
@@ -284,7 +306,7 @@ text-align: center;
           <li><a href="policy">隐私政策</a></li>
           <li><a href="terms">服务条款</a></li>
           <li>VINE</li>
-          <li><a href="#">geekan&geekben</a> &copy; <a href='https://github.com/crike/crike'>LivePortal</a> 2016</li>
+          <li><a href="#">geekan&geekben</a> &copy; <a href='https://github.com/crike/crike'>LIVE Portal</a> 2016</li>
         </ul>
     </div>
         </footer>
@@ -297,6 +319,17 @@ text-align: center;
     <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
  -->
     <script type="text/javascript">$('a').tooltip();</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'xxxxxxgoogle-analytics-id', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
