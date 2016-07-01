@@ -132,7 +132,13 @@ function expandBook(me) {
       {% comment %}
       <div>{% include 'crike_django/lesson_result.html' %}</div>
       {% endcomment %}
+      {% if room.audience_count|divisibleby:10000 %}
+      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{% widthratio room.audience_count 10000 1 %}W<label></p>
+      {% elif room.audience_count|divisibleby:1000 %}
+      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{% widthratio room.audience_count 1000 1 %}K<label></p>
+      {% else %}
       <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count}}<label></p>
+      {% endif %}
     </a>
   </div>
   {% if forloop.counter|divisibleby:4 %}<div class="clearfix visible-xs-block"></div>{% endif %}
