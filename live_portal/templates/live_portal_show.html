@@ -11,6 +11,12 @@
     overflow:hidden;
     text-overflow:ellipsis;
 }
+/*
+.video_image {
+    width:320px;
+    height:150px;
+}
+*/
 
 </style>
 <!-- <link href="/static/index.css" rel="stylesheet" type="text/css"/> -->
@@ -87,41 +93,54 @@ function expandBook(me) {
  </div>
 </div>
 <div id='padding-top'></div>
+{% comment %}
 <div class='row'>
 <div class="container subject-header-container clearfix">
-        <div class="col-sm-12 col-md-10 col-md-offset-1 subject-header">
-            <div class="subject-header-icon col-md-3 hidden-xs hidden-sm">
+        <div class="subject-header">
+            <!--div class="subject-header-icon col-md-3 hidden-xs hidden-sm">
                 <img src="{% static 'images/small/efk_icon_healthskills_140x140.png' %}">
-            </div>
-            <div class="col-sm-12 col-md-9 subject-header-description">
+            </div-->
+            <div class="col-sm-12 col-md-12 subject-header-description">
                 <h1>LIVE portal -- 你要看的直播都在这里</h1>
                 <p>敬请期待定制主页</p>
                 <!--<p>支持我们对电子课程的开发 —— 向我们<abbr title='暂时不支持此功能'>捐献</a></p>-->
-                <a title="返回" href="/show">返回首页</a>
+                <a title="返回" href="/">返回首页</a>
             </div>
         </div>
 </div>
 </div>
 <br/>
 <br/>
+{% endcomment %}
 <!-- Cycle through entries -->
-  <div class="page-header">
-      <h2>{{tag}}主播</h2>
-  </div>
-  {% for room in rooms|dictsortreversed:"audience_c" %}
+<!--  <div class="page-header">
+      <h2>{{tag}}</h2>
+  </div> -->
+  {% for room in rooms|dictsortreversed:"audience_count" %}
   <div class="col-6 col-sm-6 col-lg-3">  
-      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" href="{{room.url}}">
-      <div class="caption"></div>
-      <p>主播：{{room.anchor}}</p>
-      <p>房间：{{room.room_name}}</p>
-      <p>平台：{{room.room_name}}</p>
+      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
+      {% if room.room_name %}
+          <div class="caption"><p>{{room.room_name}}</p></div>
+      {% else %}
+          <div class="caption"><p>并没有房间名。。。</p></div>
+      {% endif %}
+      {% if room.video_img_local_path %}
+          {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
+          <img class="video_image" src="{% static image_static %}" style="">
+          {% endwith %}
+      {% else %}
+          <img src="{% static 'images/audio.png' %}">
+      {% endif %}
+      <p style="padding-top:5px;font-weight:bold">{{room.anchor|slice:":11"}} <label style="float:right;font-size:80%">{{room.tag}}<label></p>
       {% comment %}
       <div>{% include 'crike_django/lesson_result.html' %}</div>
       {% endcomment %}
-      <p style="color:sienna;">人气：{{room.audience_c}}</p>
+      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count}}<label></p>
     </a>
   </div>
+  {% if forloop.counter|divisibleby:4 %}<div class="clearfix visible-xs-block"></div>{% endif %}
   {% endfor %}
+  <div class="clearfix visible-xs-block"></div>
 
   <span id="dummy"></span>
 {% endblock %}
