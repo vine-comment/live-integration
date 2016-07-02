@@ -96,6 +96,7 @@ live_portal/settings.py
 log
 live_portal/static/images/video_snapshots/
 nohup.out
+video_snapshots
 
 *.swp
 restart.sh
