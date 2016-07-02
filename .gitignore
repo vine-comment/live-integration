@@ -96,3 +96,5 @@ live_portal/templates/base.html
 log
 live_portal/static/images/video_snapshots/
 nohup.out
+
+*.swp
