@@ -152,19 +152,23 @@ function expandBook(me) {
   <div class="clearfix visible-xs-block"></div>
 
   {% if p_rooms.has_previous or p_rooms.has_next %}
-      <ul class='pagination'>
+      <ul class='pagination pagination-mini'>
         {% if p_rooms.has_previous %}
-            <li id='pagination_arrow_{{ p_rooms.previous_page_number }}'><a href='/show/{{tag}}/?page={{ p_rooms.previous_page_number }}'>«</a></li>
+            <li id='pagination_arrow_{{ p_rooms.previous_page_number }}'><a href='/show/{{tag}}/?page={{ p_rooms.previous_page_number }}'>&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
         {% for num in p_rooms.paginator.page_range %}
             {% ifequal num p_rooms.number %}
-                <li><span class="current"><b>{{ num }}</b></span></li>
+                <li><span class="active"><b>{{ num }}</b></span></li>
             {% else %}
                 <li id='pagination_{{num}}'><a href="/show/{{tag}}/?page={{ num }}">{{ num }}</a></li>
             {% endifequal %}
         {% endfor %}
         {% if p_rooms.has_next %}
-            <li id='pagination_arrow_{{ p_rooms.next_page_number }}'><a href="/show/{{tag}}/?page={{ p_rooms.next_page_number }}">»</a></li>
+            <li id='pagination_arrow_{{ p_rooms.next_page_number }}'><a href="/show/{{tag}}/?page={{ p_rooms.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
         {% endif %}
       </ul>
   {% endif %}
