@@ -12,15 +12,26 @@ from django.utils import timezone
 
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
+    merged_tag_mapping = {
+        u'户外': [u'Outdoor', u'鱼行天下', u'户外直播', u'全民户外', u'元气领域'],
+        # u'歌手': [u'鱼音绕梁'],
+        # u'生活': [u'元气领域'],
+        u'秀场': [u'全民星秀', u'娱乐联萌', u'鱼音绕梁'],
+
+    }
 
     def get(self, request, tag):
         if not tag or tag == 'all':
             # rooms = Room.objects.all()
             # NOTE: MySQL generate timestamp with UTC+8 timezone, but here timezone.now() gets UTC.
-            rooms = Room.objects.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
+            rooms = Room.objects.all()
             tag = u'所有直播'
+        elif tag in self.merged_tag_mapping:
+            rooms = Room.objects.filter(tag__in=self.merged_tag_mapping[tag])
         else:
-            rooms = Room.objects.filter(tag=tag, modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
+            rooms = Room.objects.filter(tag=tag)
+
+        rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
 
         return render(request, self.template_name,
                 {'tag':tag, 'rooms':rooms})
