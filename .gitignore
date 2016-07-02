@@ -90,7 +90,7 @@ ENV/
 
 # Files containing sensitive code
 live_portal/settings.py
-live_portal/templates/base.html
+# live_portal/templates/base.html
 
 # Resources and logs
 log
