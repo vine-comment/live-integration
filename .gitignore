@@ -98,3 +98,4 @@ live_portal/static/images/video_snapshots/
 nohup.out
 
 *.swp
+restart.sh
