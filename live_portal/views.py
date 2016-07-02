@@ -13,11 +13,14 @@ from django.utils import timezone
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
     merged_tag_mapping = {
-        u'户外': [u'Outdoor', u'鱼行天下', u'户外直播', u'全民户外', u'元气领域'],
         # u'歌手': [u'鱼音绕梁'],
         # u'生活': [u'元气领域'],
-        u'秀场': [u'全民星秀', u'娱乐联萌', u'鱼音绕梁'],
-
+        u'户外': [u'Outdoor', u'鱼行天下', u'户外直播', u'全民户外', u'元气领域'],
+        u'秀场': [u'全民星秀', u'娱乐联萌', u'鱼音绕梁', u'鱼秀'],
+        u'体育': [u'体育频道', u'体育竞技'],
+        u'主机游戏': [u'单机主机', u'主机游戏', u'单机游戏'],
+        u'放映厅': [u'一起看', u'第九放映室'],
+        u'': [],
     }
 
     def get(self, request, tag):
