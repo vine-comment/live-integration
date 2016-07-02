@@ -114,24 +114,6 @@ function expandBook(me) {
 <!--  <div class="page-header">
       <h2>{{tag}}</h2>
   </div> -->
-  {% if p_rooms.has_previous or p_rooms.has_next %}
-      <ul class='pagination'>
-        {% if p_rooms.has_previous %}
-            <li id='pagination_arrow_{{ p_rooms.previous_page_number }}'><a href='/show/{{tag}}/?page={{ p_rooms.previous_page_number }}'>«</a></li>
-        {% endif %}
-        {% for num in p_rooms.paginator.page_range %}
-            {% ifequal num p_rooms.number %}
-                <li><span class="current"><b>{{ num }}</b></span></li>
-            {% else %}
-                <li id='pagination_{{num}}'><a href="/show/{{tag}}/?page={{ num }}">{{ num }}</a></li>
-            {% endifequal %}
-        {% endfor %}
-        {% if p_rooms.has_next %}
-            <li id='pagination_arrow_{{ p_rooms.next_page_number }}'><a href="/show/{{tag}}/?page={{ p_rooms.next_page_number }}">»</a></li>
-        {% endif %}
-      </ul>
-  {% endif %}
-  <div class="clearfix visible-xs-block"></div>
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-sm-6 col-lg-3">  
