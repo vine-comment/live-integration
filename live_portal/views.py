@@ -38,13 +38,13 @@ class ShowView(TemplateView):
 
         page_index = request.GET.get('page', 1)
         try:
-            p_rooms = Paginator(rooms_top, 20).page(page_index)
+            p_rooms = Paginator(rooms_top, 120).page(page_index)
         except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-            p_rooms = Paginator(rooms_top, 20).page(1)
+            p_rooms = Paginator(rooms_top, 120).page(1)
         except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-            p_rooms = Paginator(rooms_top, 20).page(paginator.num_pages)
+            p_rooms = Paginator(rooms_top, 120).page(paginator.num_pages)
 
 
         return render(request, self.template_name,
