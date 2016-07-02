@@ -17,10 +17,10 @@ class ShowView(TemplateView):
         if not tag or tag == 'all':
             # rooms = Room.objects.all()
             # NOTE: MySQL generate timestamp with UTC+8 timezone, but here timezone.now() gets UTC.
-            rooms = Room.objects.filter(modification_time__gte=timezone.now()+timedelta(hours=7))[:100]
+            rooms = Room.objects.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
             tag = u'所有直播'
         else:
-            rooms = Room.objects.filter(tag=tag, modification_time__gte=timezone.now()+timedelta(hours=7))[:100]
+            rooms = Room.objects.filter(tag=tag, modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
 
         return render(request, self.template_name,
                 {'tag':tag, 'rooms':rooms})
