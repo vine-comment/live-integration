@@ -37,7 +37,7 @@ class ShowView(TemplateView):
         rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
 
         return render(request, self.template_name,
-                {'tag':tag, 'rooms':rooms})
+                {'tag':tag, 'rooms':rooms_top})
 
 class HomeView(TemplateView):
     template_name = 'live_portal_show.html'
