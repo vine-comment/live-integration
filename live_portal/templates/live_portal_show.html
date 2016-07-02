@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load mathtag %}
 
 {% block header %}
 <style type="text/css">
@@ -133,9 +134,9 @@ function expandBook(me) {
       <div>{% include 'crike_django/lesson_result.html' %}</div>
       {% endcomment %}
       {% if room.audience_count|divisibleby:10000 %}
-      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{% widthratio room.audience_count 10000 1 %}W<label></p>
+      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{% widthratio room.audience_count 10000 1 %}万<label></p>
       {% elif room.audience_count|divisibleby:1000 %}
-      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{% widthratio room.audience_count 1000 1 %}K<label></p>
+      <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count|div:10000}}.{{room.audience_count|mod:10000|div:1000}}万<label></p>
       {% else %}
       <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count}}<label></p>
       {% endif %}
