@@ -24,7 +24,7 @@ class ShowView(TemplateView):
     }
 
     def get(self, request, tag):
-        if not tag or tag == 'all':
+        if not tag or tag == u'所有直播':
             # rooms = Room.objects.all()
             # NOTE: MySQL generate timestamp with UTC+8 timezone, but here timezone.now() gets UTC.
             rooms = Room.objects.all()
@@ -34,10 +34,21 @@ class ShowView(TemplateView):
         else:
             rooms = Room.objects.filter(tag=tag)
 
-        rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()[:100]
+        rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7)).order_by('audience_count').reverse()
+
+        page_index = request.GET.get('page', 1)
+        try:
+            p_rooms = Paginator(rooms_top, 20).page(page_index)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+            p_rooms = Paginator(rooms_top, 20).page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            p_rooms = Paginator(rooms_top, 20).page(paginator.num_pages)
+
 
         return render(request, self.template_name,
-                {'tag':tag, 'rooms':rooms_top})
+                {'tag':tag, 'p_rooms':p_rooms})
 
 class HomeView(TemplateView):
     template_name = 'live_portal_show.html'
