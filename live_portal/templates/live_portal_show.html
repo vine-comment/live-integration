@@ -152,7 +152,7 @@ function expandBook(me) {
   <div class="clearfix visible-xs-block"></div>
 
   {% if p_rooms.has_previous or p_rooms.has_next %}
-      <ul class='pagination pagination-mini'>
+      <ul class='pagination pagination-sm'>
         {% if p_rooms.has_previous %}
             <li id='pagination_arrow_{{ p_rooms.previous_page_number }}'><a href='/show/{{tag}}/?page={{ p_rooms.previous_page_number }}'>&laquo;</a></li>
         {% else %}
