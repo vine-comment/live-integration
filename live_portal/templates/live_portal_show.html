@@ -7,6 +7,14 @@
 #padding-top {
     padding-top: 20px;
 }
+.thumbnail {
+    border: 0px;
+    margin: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
 .thumbnail p {
     white-space: nowrap;
     overflow:hidden;
@@ -16,7 +24,10 @@
     min-width:100%;
 }
 .col-6 {
-    padding: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 table {
     background-size:     contain;                      /* <------ */
@@ -153,7 +164,7 @@ function expandBook(me) {
       {% else %}
           <img src="{% static 'images/audio.png' %}">
       {% endif %}
-      <p style="width:85%;position: absolute; top: 8%; left: 1em; font-weight: bold; font-size:80%; color: #fff; background-color: black;opacity: 0.6;">
+      <p style="width:85%;position: absolute; top: 3%; left: 1em; font-weight: bold; font-size:80%; color: #fff; background-color: black;opacity: 0.6;">
           {% if room.room_name %}
               {{room.room_name}}
           {% else %}
