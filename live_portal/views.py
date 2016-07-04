@@ -10,6 +10,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 
+
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
     merged_tag_mapping = {
