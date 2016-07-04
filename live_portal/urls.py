@@ -1,4 +1,4 @@
-from live_portal.views import *
+from views import *
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:

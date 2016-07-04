@@ -5,7 +5,7 @@ from django.http import *
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from live_portal.models import *
+from models import *
 from datetime import timedelta
 from django.utils import timezone
 
@@ -52,4 +52,4 @@ class HomeView(TemplateView):
     template_name = 'live_portal_show.html'
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect("/show/");
+        return HttpResponseRedirect("/show/")
