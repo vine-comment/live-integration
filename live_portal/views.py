@@ -46,7 +46,6 @@ class ShowView(TemplateView):
         # If page is out of range (e.g. 9999), deliver last page of results.
             p_rooms = p.page(p.num_pages)
 
-
         return render(request, self.template_name,
                 {'tag':tag, 'p_rooms':p_rooms})
 
@@ -55,3 +54,10 @@ class HomeView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return HttpResponseRedirect("/show/")
+
+
+class UserFollowsView(TemplateView):
+    template_name = ''
+
+    def get(self, request, *args, **kwargs):
+        pass
