@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 
 from registration.backends.simple.views import RegistrationView
+from forms import *
 
 # from django.contrib import admin
 # admin.autodiscover()
@@ -14,7 +15,7 @@ urlpatterns = patterns('',
     # auth & accounts
     url(r'^auth', TemplateView.as_view(template_name='registration/auth.html'), name='auth'),
     url(r'^accounts/register/$',
-              RegistrationView.as_view(form_class=CrikeRegistrationForm),
+              RegistrationView.as_view(form_class=LivePortalRegistrationForm),
               name='registration_register'),
 
     # follows
