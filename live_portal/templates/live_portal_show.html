@@ -15,6 +15,19 @@
 .video_image {
     min-width:100%;
 }
+.col-6 {
+    padding: 3px;
+}
+table {
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;              /* optional, center the image */
+}
+td {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
 
 </style>
 <!-- <link href="/static/index.css" rel="stylesheet" type="text/css"/> -->
@@ -116,21 +129,53 @@ function expandBook(me) {
   </div> -->
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
-  <div class="col-6 col-sm-6 col-lg-3">  
+  <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
       <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
-      {% if room.room_name %}
-          <div class="caption"><p>{{room.room_name}}</p></div>
-      {% else %}
-          <div class="caption"><p>并没有房间名。。。</p></div>
-      {% endif %}
       {% if room.video_img_local_path %}
           {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
-          <img class="video_image" src="{% static image_static %}" style="">
+          {% comment %}
+          <table width="100%" height="150px" background={% static image_static %} cellpadding="5" cellspacing="0">
+              <tr>
+                  <td valign="bottom">
+                      <b><font color="#fff" style="text-overflow:hidden; background-color: black;opacity: 0.6;">
+                          {% if room.room_name %}
+                              {{room.room_name}}
+                          {% else %}
+                              并没有房间名。。。
+                          {% endif %}
+                      </font></b>
+                  </td>
+              </tr>
+          </table>
+          {% endcomment %}
+          <img class="video_image" src="{% static image_static %}">
           {% endwith %}
       {% else %}
           <img src="{% static 'images/audio.png' %}">
       {% endif %}
-      <p style="padding-top:5px;font-weight:bold">{{room.anchor|slice:":11"}} <label style="float:right;font-size:80%">{{room.tag}}<label></p>
+      <p style="width:85%;position: absolute; top: 8%; left: 1em; font-weight: bold; font-size:80%; color: #fff; background-color: black;opacity: 0.6;">
+          {% if room.room_name %}
+              {{room.room_name}}
+          {% else %}
+              并没有房间名。。。
+          {% endif %}
+      </p>
+      <p style="padding-top:5px">
+          <table style="font-size:80%" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                  <td align="left" width="70%">
+                      <b><font>
+                          {{room.anchor}}
+                      </font></b>
+                  </td>
+                  <td align="right" width="30%">
+                      <font color="black">
+                          {{room.tag}}
+                      </font>
+                  </td>
+              </tr>
+          </table>
+      </p>
       {% comment %}
       <div>{% include 'crike_django/lesson_result.html' %}</div>
       {% endcomment %}
