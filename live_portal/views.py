@@ -10,6 +10,15 @@ from datetime import timedelta
 from django.utils import timezone
 
 
+def get_profile(user):
+    try:
+        return user.audience
+    except:
+        try:
+            return user.anchor
+        except:
+            return None
+
 
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
@@ -57,7 +66,16 @@ class HomeView(TemplateView):
 
 
 class UserFollowsView(TemplateView):
-    template_name = ''
+    template_name = 'live_portal_user_follows.html'
 
     def get(self, request, *args, **kwargs):
-        pass
+        profile = get_profile(request.user)
+
+        fxy = Room.objects.get(anchor='trevor行云')
+        profile.follows.add(fxy)
+        rooms = profile.follows.all()
+
+        # debug
+        print(rooms.values)
+
+        return render(request, self.template_name, {'rooms': rooms})

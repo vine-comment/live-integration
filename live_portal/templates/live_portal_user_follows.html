@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mathtag %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  {% for room in rooms.object_list|dictsortreversed:"audience_count" %}
+    {{room.room_name}}
+  {% endfor %}
+{% endblock %}
