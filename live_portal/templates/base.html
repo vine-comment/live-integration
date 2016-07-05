@@ -8,9 +8,9 @@
   <head>
     <meta charset="utf-8">
     {% if tag %}
-      <title>{{tag}} | LIVE portal</title>
+      <title>{{tag}} | LIVE ZOO</title>
     {% else %}
-      <title>LIVE portal</title>
+      <title>LIVE ZOO</title>
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -19,6 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'font-awesome/4.0.3/css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'twitter-bootstrap/3.0.3/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
  
 <!-- 
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -40,12 +41,26 @@
       h1, h2, h3, h4, h5 {
         color: #662680;
       }
+
+      @font-face {
+        font-family: 'palatinox';
+        unicode-range: U+2E80-FFFF;
+        src: local('Microsoft Yahei');
+      }
+      @font-face {
+        font-family: 'palatinox';
+        unicode-range: U+0000-2E7F;
+        src: local('palatino');
+      }
+
       h1, h2, h3, h4, h5, p, div, form {
-        font-family:microsoft yahei;
+        font-family:palatinox, microsoft yahei;
       }
 
       .thumbnail p {margin: 0;}
-      
+
+      footer {padding-top: 10px;}
+
       {% include "css/navbar_purple.css" %}
       
 .subjectbar {
@@ -188,7 +203,7 @@ text-align: center;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand nav" href="/">LIVE portal</a>
+          <a class="navbar-brand nav" href="/">LIVE ZOO</a>
         </div>
 
         <div class="navbar-collapse collapse subjects">
@@ -324,7 +339,7 @@ text-align: center;
           <li><a href="policy">隐私政策</a></li>
           <li><a href="terms">服务条款</a></li>
           <li>VINE</li>
-          <li><a href="#">geekan&geekben</a> &copy; <a target="_blank" href='https://github.com/vine-comment/live_portal'>LIVE Portal</a> 2016</li>
+          <li><a href="#">geekan&geekben</a> &copy; <a target="_blank" href='https://github.com/vine-comment/live_portal'>LIVE ZOO</a> 2016</li>
         </ul>
     </div>
         </footer>
