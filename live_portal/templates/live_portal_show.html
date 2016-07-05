@@ -33,6 +33,10 @@ table {
     background-size:     contain;                      /* <------ */
     background-repeat:   no-repeat;
     background-position: center center;              /* optional, center the image */
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    table-layout: fixed;
 }
 td {
     white-space: nowrap;
@@ -173,7 +177,7 @@ function expandBook(me) {
       </p>
       <p style="padding-top:5px">
           <table style="font-size:80%" width="100%" cellpadding="0" cellspacing="0">
-              <tr>
+              <tr width="100%">
                   <td align="left" width="70%">
                       <b><font>
                           {{room.anchor}}
