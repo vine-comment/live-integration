@@ -203,7 +203,7 @@ function popup_message(text)
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
     <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
       {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
-          <img class="video_image" src="{% static 'favicon.ico' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
+          <img class="video_image" src="{% static 'favicon.ico' %}" data-src="{% static image_static %}" onload="OnImageLoad(event);">
           <noscript>
               <img class="video_image" src="{% static image_static %}">
           </noscript>
