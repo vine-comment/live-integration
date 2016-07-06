@@ -10,10 +10,11 @@
 .thumbnail {
     border: 0px;
     margin: 0px;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
     padding-bottom: 0px;
+    margin-bottom: 2%;
 }
 .thumbnail p {
     white-space: nowrap;
@@ -21,8 +22,9 @@
     text-overflow:ellipsis;
 }
 .video_image {
-    min-width:100%;
+    max-width:100%;
 }
+
 .col-6 {
     padding-left: 3px;
     padding-right: 3px;
@@ -49,7 +51,37 @@ td {
 {% endblock %}
 
 {% block content %}
+<script src="{% static 'jquery/2.0.3/jquery.min.js' %}"></script>
 <script>
+  /*
+  $(document).ready( function(){
+    var maxh=0;
+    $.each($(document).find('div[class^="col-"]'), function() {
+        if($(this).height() > maxh)
+            maxh=$(this).height();
+    });
+    $.each($(document).find('div[class^="col-"]'), function() {
+        $(this).height(maxh);
+    });
+  });
+  */
+
+  function OnImageLoad(evt) {
+
+    var img = evt.currentTarget;
+
+    // what's the size of this image and it's parent
+    var tw = $(img).parent().width();
+    var th = $(img).parent().height();
+
+    $(img).width(tw);
+    $(img).height(tw*0.5625);
+    var w = $(img).width();
+    var h = $(img).height();
+    console.log("tw:"+tw+"th:"+th+"w:"+w+"h:"+h+"src:"+img.src);
+    //$(img).css("padding-bottom", 9/16*tw-img.height);
+  }
+
   //solve the csrf token issue
   function getCookie(name)
   {
@@ -69,26 +101,6 @@ td {
       return cookieValue;
   }
  
-  function addToMine(lessonid) {
-    //solve the csrf token issue
-    $.ajaxSetup({ 
-         beforeSend: function(xhr, settings) {
-             if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                 // Only send the token to relative URLs i.e. locally.
-                 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-             }
-         } 
-    });
-
-    $.post("/lessonschoose/", {id: lessonid })
-    .done(function(){
-      popup_message("已提交课程申请");
-      {% if user.teacher %}
-        window.location.href = '{% url "lessons_choose_view" %}';
-      {% endif %}
-    });
-  };
-
 function popup_message(text)
 {
     $('#message-drawer .message-text').text(text);
@@ -99,16 +111,6 @@ function popup_message(text)
     }); 
 };
 
-function expandBook(me) {
-  var content = $(me).parents('.panel-primary').find('.panel-body');
-  if (content.is(":visible")) {
-    content.hide();
-    $(me).find('i').prop('class','fa fa-caret-right');
-  } else {
-    content.show();
-    $(me).find('i').prop('class','fa fa-caret-down');
-  }
-};
 </script>
 <div class="alert-messages" id="message-drawer" style="opacity: 0; top: 60px; display: none;">                                                    
  <div class="message ">
@@ -145,7 +147,7 @@ function expandBook(me) {
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
-      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
+    <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
       {% if room.video_img_local_path %}
           {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
           {% comment %}
@@ -163,7 +165,7 @@ function expandBook(me) {
               </tr>
           </table>
           {% endcomment %}
-          <img class="video_image" src="{% static image_static %}">
+          <img class="video_image" src="{% static image_static %}" onload="OnImageLoad(event);">
           {% endwith %}
       {% else %}
           <img src="{% static 'images/audio.png' %}">
@@ -175,8 +177,8 @@ function expandBook(me) {
               并没有房间名。。。
           {% endif %}
       </p>
-      <p style="padding-top:5px">
-          <table style="font-size:80%" width="100%" cellpadding="0" cellspacing="0">
+      <p style="padding-top:5px;">
+          <table style="font-size:80%" width="100%" cellpadding="1px" cellspacing="0">
               <tr width="100%">
                   <td align="left" width="70%">
                       <b><font>
@@ -197,13 +199,13 @@ function expandBook(me) {
       {% if room.audience_count >= 10000 %}
           {% with room.audience_count|mod:10000|div:1000 as remain %}
           {% if remain == 0 %}
-          <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count|div:10000}}万<label></p>
+          <p style="color:#555;font-size:80%;padding-top:-5px;padding-left:2px;padding-right:2px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count|div:10000}}万<label></p>
           {% else %}
-          <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count|div:10000}}.{{remain}}万<label></p>
+          <p style="color:#555;font-size:80%;padding-top:-5px;padding-left:2px;padding-right:2px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count|div:10000}}.{{remain}}万<label></p>
           {% endif %}
           {% endwith %}
       {% else %}
-          <p style="color:#555;font-size:80%;padding-top:-5px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count}}<label></p>
+          <p style="color:#555;font-size:80%;padding-top:-5px;padding-left:2px;padding-right:2px">{{room.platform}}<label style="float:right"> 人气：{{room.audience_count}}<label></p>
       {% endif %}
     </a>
   </div>
