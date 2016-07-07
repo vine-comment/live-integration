@@ -53,117 +53,7 @@ td {
 {% block content %}
 <script src="{% static 'jquery/2.0.3/jquery.min.js' %}"></script>
 <!--script src="{% static 'jquery/jquery.unveil.js' %}"></script-->
-<script type="text/javascript">
-
-  $(document).ready( function(){
-    ;(function($) {
-
-      $.fn.unveil = function(threshold, callback) {
-
-        var $w = $(window),
-            th = threshold || 0,
-            retina = window.devicePixelRatio > 1,
-            attrib = retina? "data-src-retina" : "data-src",
-            images = this,
-            loaded;
-
-        this.one("unveil", function() {
-          var source = this.getAttribute(attrib);
-          source = source || this.getAttribute("data-src");
-          if (source) {
-            this.setAttribute("src", source);
-            if (typeof callback === "function") callback.call(this);
-          }
-        });
-
-        function unveil() {
-          var inview = images.filter(function() {
-            var $e = $(this);
-            if ($e.is(":hidden")) return;
-
-            var wt = $w.scrollTop(),
-                wb = wt + $w.height(),
-                et = $e.offset().top,
-                eb = et + $e.height();
-
-            return eb >= wt - th && et <= wb + th;
-          });
-
-          loaded = inview.trigger("unveil");
-          images = images.not(loaded);
-        }
-
-        $w.on("scroll.unveil resize.unveil lookup.unveil", unveil);
-
-        unveil();
-
-        return this;
-
-      };
-
-    })(window.jQuery || window.Zepto);
-
-  /*
-    var maxh=0;
-    $.each($(document).find('div[class^="col-"]'), function() {
-        if($(this).height() > maxh)
-            maxh=$(this).height();
-    });
-    $.each($(document).find('div[class^="col-"]'), function() {
-        $(this).height(maxh);
-    });
-  */
-    $(".video_image").unveil(0, function() {
-        var tw = $(this).parent().width();
-        $(this).width(tw);
-        $(this).height(tw*0.5625);
-    });
-  });
-
-  function OnImageLoad(evt) {
-
-    var img = evt.currentTarget;
-
-    // what's the size of this image and it's parent
-    var tw = $(img).parent().width();
-
-    $(img).width(tw);
-    $(img).height(tw*0.5625);
-    //console.log("tw:"+tw+"th:"+th+"w:"+w+"h:"+h+"src:"+img.src);
-    //$(img).css("padding-bottom", 9/16*tw-img.height);
-  }
-
-  //solve the csrf token issue
-  function getCookie(name)
-  {
-      var cookieValue = null;
-      if (document.cookie && document.cookie != '') {
-          var cookies = document.cookie.split(';');
-          for (var i = 0; i < cookies.length; i++) {
-              var cookie = jQuery.trim(cookies[i]);
-              // Does this cookie string begin with the name we want?
-   
-              if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
-      }
-      return cookieValue;
-  }
- 
-function popup_message(text)
-{
-    $('#message-drawer .message-text').text(text);
-    $('#message-drawer').show();
-    $('#message-drawer').fadeTo("fast", 1.0);
-    $('#message-drawer').fadeTo(3000, 0, function(){
-        $(this).hide();
-    }); 
-};
-
-</script>
-<div class="alert-messages" id="message-drawer" style="opacity: 0; top: 60px; display: none;">                                                    
+<div class="alert-messages" id="message-drawer" style="opacity: 0; top: 60px; display: none;">
  <div class="message ">
    <div class="message-inside">
      <span class="message-text"></span>
@@ -190,11 +80,11 @@ function popup_message(text)
 </div>
 <br/>
 <br/>
-{% endcomment %}
 <!-- Cycle through entries -->
 <!--  <div class="page-header">
       <h2>{{tag}}</h2>
   </div> -->
+{% endcomment %}
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
@@ -272,4 +162,115 @@ function popup_message(text)
 
 
   <span id="dummy"></span>
+<script type="text/javascript">
+
+  $(document).ready( function(){
+    ;(function($) {
+
+      $.fn.unveil = function(threshold, callback) {
+
+        var $w = $(window),
+            th = threshold || 0,
+            retina = window.devicePixelRatio > 1,
+            attrib = retina? "data-src-retina" : "data-src",
+            images = this,
+            loaded;
+
+        this.one("unveil", function() {
+          var source = this.getAttribute(attrib);
+          source = source || this.getAttribute("data-src");
+          if (source) {
+            this.setAttribute("src", source);
+            if (typeof callback === "function") callback.call(this);
+          }
+        });
+
+        function unveil() {
+          var inview = images.filter(function() {
+            var $e = $(this);
+            if ($e.is(":hidden")) return;
+
+            var wt = $w.scrollTop(),
+                wb = wt + $w.height(),
+                et = $e.offset().top,
+                eb = et + $e.height();
+
+            //console.log("wt:"+wt+" wb:"+wb+" et:"+et+" eb:"+eb);
+            return eb >= wt - th && et <= wb + th;
+          });
+
+          loaded = inview.trigger("unveil");
+          images = images.not(loaded);
+        }
+
+        $w.on("scroll.unveil resize.unveil lookup.unveil", unveil);
+
+        unveil();
+
+        return this;
+
+      };
+
+    })(window.jQuery || window.Zepto);
+
+  /*
+    var maxh=0;
+    $.each($(document).find('div[class^="col-"]'), function() {
+        if($(this).height() > maxh)
+            maxh=$(this).height();
+    });
+    $.each($(document).find('div[class^="col-"]'), function() {
+        $(this).height(maxh);
+    });
+  */
+    $(".video_image").unveil(0, function() {
+        var tw = $(this).parent().width();
+        $(this).width(tw);
+        $(this).height(tw*0.5625);
+    });
+  });
+
+  function OnImageLoad(evt) {
+
+    var img = evt.currentTarget;
+
+    // what's the size of this image and it's parent
+    var tw = $(img).parent().width();
+
+    $(img).width(tw);
+    $(img).height(tw*0.5625);
+    //console.log("tw:"+tw+"th:"+th+"w:"+w+"h:"+h+"src:"+img.src);
+    //$(img).css("padding-bottom", 9/16*tw-img.height);
+  }
+
+  //solve the csrf token issue
+  function getCookie(name)
+  {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+   
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+ 
+function popup_message(text)
+{
+    $('#message-drawer .message-text').text(text);
+    $('#message-drawer').show();
+    $('#message-drawer').fadeTo("fast", 1.0);
+    $('#message-drawer').fadeTo(3000, 0, function(){
+        $(this).hide();
+    }); 
+};
+
+</script>
 {% endblock %}
