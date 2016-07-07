@@ -47,6 +47,14 @@ class Profile(models.Model):
     current_streak = models.IntegerField(default=0)
     room_follow_cnt = models.IntegerField(default=0)
 
+    @property
+    def is_audience(self):
+        try:
+            self.audience
+            return True
+        except Audience.DoesNotExist:
+            return False
+
     def __unicode__(self):
         return u'Profile of user: %s' % self.user
 

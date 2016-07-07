@@ -229,6 +229,29 @@ text-align: center;
             -->
           </ul>
           {% if user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+
+            {% if user.audience %}
+            <li><a href="{% url 'home' %}" data-toggle="tooltip" data-placement="bottom" title="我的主页">
+              <i class="fa fa-user fa-lg"></i>观众
+              <strong>{{ user.username }}</strong>
+            </a></li>
+            {% else %}
+            <li><a href="{% url 'home' %}" data-toggle="tooltip" data-placement="bottom" title="我的主页">
+              <i class="fa fa-user fa-lg"></i>admin
+              <strong>{{ user.username }}</strong>
+            </a></li>
+            {% endif %}
+
+            <li class="divider-vertical"></li>
+            <li><a href="{% url 'auth_password_change' %}" data-toggle="tooltip" data-placement="bottom" title="修改密码">
+              <i class="fa fa-key fa-lg"></i>
+            </a></li>
+            <li><a class="btn btn-inverse" href="{% url 'auth_logout' %}" data-toggle="tooltip" data-placement="bottom" title="登出">
+              <i class="fa fa-sign-out fa-lg"></i>
+            </a></li>
+          </ul>
+
           {% else %}
           <!-- 弹出框相关 -->
           <ul class="nav navbar-nav navbar-right">
@@ -258,7 +281,7 @@ text-align: center;
               <h2 class="modal-title" id="myModalLabel">登录</h4>
             </div>
             <div class="modal-body">
-              <form id="login-form" class="form-inline" action="{% url 'auth' %}" method="post">
+              <form id="login-form" class="form-inline" action="{% url 'home' %}" method="post">
                 {% csrf_token %}
                 <style type="text/css">
                   .modal-body .input-group {
@@ -281,7 +304,7 @@ text-align: center;
                 </label>
                 <button class="btn btn-large btn-primary" type="submit" value="Log in">登录</button>
               </form>
-              <p><a href="{% url 'password_reset' %}">{% trans '重设密码' %}</a></p>
+              <p><a href="{% url 'auth_password_reset' %}">{% trans '重设密码' %}</a></p>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

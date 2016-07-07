@@ -4,6 +4,7 @@ from django.views.generic import *
 from django.http import *
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth import authenticate, login
 
 from models import *
 from datetime import timedelta
@@ -62,6 +63,23 @@ class HomeView(TemplateView):
     template_name = 'live_portal_show.html'
 
     def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect("/show/")
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                # Redirect to a success page.
+            else:
+                login(request, user)
+                # Return a 'disabled account' error message
+        else:
+            # Return an 'invalid login' error message.
+            return HttpResponseRedirect("/auth/")
+
         return HttpResponseRedirect("/show/")
 
 
