@@ -227,27 +227,14 @@ text-align: center;
             <li class="{% active request '娱乐联萌$' %}"><a href="/show/娱乐联萌">娱乐联萌</a></li>
             <li class="{% active request '全民星秀$' %}"><a href="/show/全民星秀">全民星秀</a></li>
             -->
-            <!--
-              <li class="showall {% active request 'show/?$' %}"><a href="/show">所有主播</a></li>
-            <li class="showyxlm {% active request 'yxlm$' %}"><a href="/show/yxlm">英雄联盟</a></li>
-            <li class="showlscs {% active request 'lscs$' %}"><a href="/show/lscs">炉石传说</a></li>
-            <li class="showdota2 {% active request 'dota2$' %}"><a href="/show/dota2">DOTA2</a></li>
-            <li class="showzjyx {% active request 'zjyx$' %}"><a href="/show/zjyx">主机游戏</a></li>
-            <li class="showswxf {% active request 'swxf$' %}"><a href="/show/swxf">守望先锋</a></li>
-            <li class="showyqly {% active request 'yqly$' %}"><a href="/show/yqly">元气领域</a></li>
-            <li class="showyllm {% active request 'yllm$' %}"><a href="/show/yllm">娱乐联萌</a></li>
-            <li class="showqmxx {% active request 'qmmx$' %}"><a href="/show/qmmx">全民星秀</a></li>
-            <li class="showqmhw {% active request 'qmhw$' %}"><a href="/show/qmhw">全民户外</a></li>
-            -->
-            <!-- <li class="shownt {% active request 'nt$' %}"><a href="/show/nt">女团</a></li> -->
           </ul>
           {% if user.is_authenticated %}
           {% else %}
           <!-- 弹出框相关 -->
-          <!--ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#loginModal">登录</a></li>
             <li><a href="#" data-toggle="modal" data-target="#registerModal">注册</a></li>
-          </ul-->
+          </ul>
           {% endif %}
 
             </div><!-- /.nav-collapse -->
@@ -261,7 +248,6 @@ text-align: center;
     {% endblock %}
     </div>
     <div class="container">
-      {% comment %}
 
       <!-- 登录：Modal 弹出框 -->
       <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -272,7 +258,7 @@ text-align: center;
               <h2 class="modal-title" id="myModalLabel">登录</h4>
             </div>
             <div class="modal-body">
-              <form id="login-form" class="form-inline" action="#" method="post">
+              <form id="login-form" class="form-inline" action="{% url 'auth' %}" method="post">
                 {% csrf_token %}
                 <style type="text/css">
                   .modal-body .input-group {
@@ -293,9 +279,9 @@ text-align: center;
                 <label class="checkbox">
                   <input type="checkbox" value="remember-me"> 记住我
                 </label>
-               <button class="btn btn-large btn-primary" type="submit" value="Log in">登录</button>
+                <button class="btn btn-large btn-primary" type="submit" value="Log in">登录</button>
               </form>
-              <p><a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans '重设密码' %}</a></p>
+              <p><a href="{% url 'password_reset' %}">{% trans '重设密码' %}</a></p>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -327,7 +313,6 @@ text-align: center;
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
-      {% endcomment %}
 
       {% block container %}
       {% endblock %}

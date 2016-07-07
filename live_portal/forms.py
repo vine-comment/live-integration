@@ -17,8 +17,6 @@ class LivePortalRegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput,
                                 label="密码 (重复)")
     is_human = forms.NullBooleanField(label="你是人类吗？", required=False)
-    school = forms.CharField(max_length=50,
-                             label="学校", required=False)
     dob = forms.DateField(label="生日 (例子: 1999-2-19)", required=False)
     phone = forms.CharField(label="手机", required=False)
     gender = forms.CharField(label="性别", required=False)

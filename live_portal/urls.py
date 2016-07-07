@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$',
               RegistrationView.as_view(form_class=LivePortalRegistrationForm),
               name='registration_register'),
+    url(r'^resetpassword/passwordsent/$', 'django.contrib.auth.views.password_reset', name='password_reset'),
 
     # follows
     url(r'^user/follows$', login_required(UserFollowsView.as_view()), name='user_follows'),
