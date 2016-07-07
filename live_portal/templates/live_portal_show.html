@@ -223,7 +223,7 @@ td {
         $(this).height(maxh);
     });
   */
-    $(".video_image").unveil(0, function() {
+    $(".video_image").unveil(2048, function() {
         var tw = $(this).parent().width();
         $(this).width(tw);
         $(this).height(tw*0.5625);
