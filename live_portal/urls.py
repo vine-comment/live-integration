@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'favicon/1.ico')),
 
     # auth & accounts
-    url(r'^auth', TemplateView.as_view(template_name='registration/auth.html'), name='auth_login'),
+    url(r'^auth', TemplateView.as_view(template_name='registration/auth.html'), name='auth'),
     url(r'^accounts/register/$',
               RegistrationView.as_view(form_class=LivePortalRegistrationForm),
               name='registration_register'),
