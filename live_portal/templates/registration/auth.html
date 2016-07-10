@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block container %}
-        <div class="content">
+{% block content %}
+        <div class="content" style="margin-top:41px">
             <ul>
+                <li><a href="#" data-toggle="modal" data-target="#loginModal">登录</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#registerModal">注册</a></li>
+                {% comment %}
                 <li><a href="{% url "registration_register" %}">{% trans "注册" %}</a></li>
                 <li><a href="{% url "auth" %}">{% trans "登录" %}</a></li>
                 <li><a href="{% url "auth_logout" %}">{% trans "登出" %}</a></li>
                 <li><a href="{% url "auth_password_change" %}">{% trans "修改密码" %}</a></li>
                 <li><a href="{% url "auth_password_reset" %}">{% trans "重置密码" %}</a></li>
+                {% endcomment %}
             </ul>
         </div>
 {% endblock %}
