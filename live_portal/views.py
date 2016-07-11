@@ -21,6 +21,17 @@ def get_profile(user):
             return None
 
 
+# ajax handler
+def enter_room(request, anchor):
+    #platform_anchor = request.POST['anchor']
+    if request.user.is_authenticated():
+        user = get_profile(request.user)
+        user.recent_visited.add(anchor)
+        user.save()
+        print "xxxxxxx:", anchor
+
+    return HttpResponse(status=200)
+
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
     merged_tag_mapping = {

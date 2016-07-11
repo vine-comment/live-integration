@@ -47,6 +47,7 @@ td {
 }
 
 </style>
+<link href="{% static 'font-awesome/4.0.3/css/font-awesome.min.css' %}" rel="stylesheet">
 <!-- <link href="/static/index.css" rel="stylesheet" type="text/css"/> -->
 {% endblock %}
 
@@ -88,20 +89,29 @@ td {
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
-    <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}">
+      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')">
       {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
           <img class="video_image" src="{% static 'LIVE.png' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
           <noscript>
               <img class="video_image" src="{% static image_static %}">
           </noscript>
       {% endwith %}
-      <p style="width:95%;position: absolute; top: 1%; left: 3%; font-weight: bold; font-size:88%; color: #fff; background-color: black;opacity: 0.8;">
+      <p style="width:95%;position: absolute; top: 1%; left: 2%; font-weight: bold; font-size:88%; color: #fff; background-color: black;opacity: 0.8;">
           {% if room.room_name %}
               {{room.room_name}}
           {% else %}
               并没有房间名。。。
           {% endif %}
       </p>
+      {% comment %}
+      <p style="width:6%;position: absolute; top: 1%; right: 1%; font-weight: bold; font-size:88%; color: #fff; background-color: black;opacity: 0.9;">
+          {% if user.is_authenticated %}
+              <label href="#" title="加关注">&nbsp<i class="fa fa-plus"></i></label>
+          {% else %}
+              <label href="{% url 'auth' %}">&nbsp<i class="fa fa-plus"></i></label>
+          {% endif %}
+      </p>
+      {% endcomment %}
       <p style="padding-top:5px;">
           <table style="font-size:80%" width="100%" cellpadding="1px" cellspacing="0">
               <tr width="100%">
@@ -272,5 +282,9 @@ function popup_message(text)
     }); 
 };
 
+function EnterRoom(me, anchor)
+{
+    $.get('/ajax/enter_room/'+anchor);
+}
 </script>
 {% endblock %}

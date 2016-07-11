@@ -47,6 +47,7 @@ class Profile(models.Model):
     current_streak = models.IntegerField(default=0)
     room_follow_cnt = models.IntegerField(default=0)
 
+
     @property
     def is_audience(self):
         try:
@@ -64,7 +65,9 @@ class Profile(models.Model):
 
 class Audience(Profile):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="audience")
-    follows = models.ManyToManyField(Room)
+    # relationships
+    recent_visited = models.ManyToManyField(Room, related_name="audience_recent_visited")
+    follows = models.ManyToManyField(Room, related_name="audience_follows")
 
 
 class Anchor(Audience):

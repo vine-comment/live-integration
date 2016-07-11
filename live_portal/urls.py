@@ -1,3 +1,4 @@
+from live_portal import views
 from views import *
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
@@ -20,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^resetpassword/passwordsent/$', 'django.contrib.auth.views.password_reset', name='auth_password_reset'),
     url(r'^changepassword/passwordsent/$', 'django.contrib.auth.views.password_change', name='auth_password_change'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='auth_logout'),
+    url(r'^users/(?P<name>.*?)/?$', HomeView.as_view(), name='user'),
 
     # follows
     url(r'^user/follows$', login_required(UserFollowsView.as_view()), name='user_follows'),
@@ -27,4 +29,7 @@ urlpatterns = patterns('',
     # show anchors
     url(r'^show/(?P<tag>.*?)/?$', ShowView.as_view(), name='show'),
     url(r'^/?$', HomeView.as_view(), name='home'),
+
+    # ajax
+    url(r'^ajax/enter_room/(?P<anchor>.*?)/?$', views.enter_room),
 )
