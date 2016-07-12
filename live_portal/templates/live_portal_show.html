@@ -237,9 +237,11 @@ td {
     });
   */
     $(".video_image").unveil(2048, function() {
-        var tw = $(this).parent().width();
-        $(this).width(tw);
-        $(this).height(tw*0.5625);
+        $(this).load(function() {
+            var tw = $(this).parent().width();
+            $(this).width(tw);
+            $(this).height(tw*0.5625);
+        });
     });
   });
 
