@@ -237,12 +237,16 @@ td {
     });
   */
     $(".video_image").unveil(2048, function() {
+        console.log("debug: point 1.0");
         $(this).load(function() {
-            var tw = $(this).parent().width();
-            $(this).width(tw);
-            $(this).height(tw*0.5625);
+            console.log("debug: point 1.x");
+            var tw = this.parent().width();
+            this.width(tw);
+            this.height(tw*0.5625);
         });
     });
+    console.log("debug: point 2");
+    // $("img").trigger("unveil");
   });
 
   function OnImageLoad(evt) {
