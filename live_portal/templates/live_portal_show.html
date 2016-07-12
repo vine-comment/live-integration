@@ -226,7 +226,7 @@ td {
 
     })(window.jQuery || window.Zepto);
 
-  /*
+    /*
     var maxh=0;
     $.each($(document).find('div[class^="col-"]'), function() {
         if($(this).height() > maxh)
@@ -235,8 +235,8 @@ td {
     $.each($(document).find('div[class^="col-"]'), function() {
         $(this).height(maxh);
     });
-  */
-    $(".video_image").unveil(2048, function() {
+    */
+    $("img").unveil(2048, function() {
         console.log("debug: point 1.0");
         $(this).load(function() {
             console.log("debug: point 1.x");
@@ -246,7 +246,7 @@ td {
         });
     });
     console.log("debug: point 2");
-    // $("img").trigger("unveil");
+    $("img").trigger("unveil");
   });
 
   function OnImageLoad(evt) {
