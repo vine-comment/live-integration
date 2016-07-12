@@ -240,9 +240,9 @@ td {
         console.log("debug: point 1.0");
         $(this).load(function() {
             console.log("debug: point 1.x");
-            var tw = this.parent().width();
-            this.width(tw);
-            this.height(tw*0.5625);
+            var tw = $(this).parent().width();
+            $(this).width(tw);
+            $(this).height(tw*0.5625);
         });
     });
     console.log("debug: point 2");
