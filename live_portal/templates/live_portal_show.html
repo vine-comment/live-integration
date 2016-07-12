@@ -172,6 +172,9 @@ td {
 
 
   <span id="dummy"></span>
+{% endblock %}
+
+{% block body_footer_end %}
 <script type="text/javascript">
 
   $(document).ready( function(){
@@ -262,7 +265,7 @@ td {
           for (var i = 0; i < cookies.length; i++) {
               var cookie = jQuery.trim(cookies[i]);
               // Does this cookie string begin with the name we want?
-   
+
               if (cookie.substring(0, name.length + 1) == (name + '=')) {
                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                   break;
@@ -271,7 +274,7 @@ td {
       }
       return cookieValue;
   }
- 
+
 function popup_message(text)
 {
     $('#message-drawer .message-text').text(text);
@@ -279,7 +282,7 @@ function popup_message(text)
     $('#message-drawer').fadeTo("fast", 1.0);
     $('#message-drawer').fadeTo(3000, 0, function(){
         $(this).hide();
-    }); 
+    });
 };
 
 function EnterRoom(me, anchor)
