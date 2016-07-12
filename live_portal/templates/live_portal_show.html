@@ -22,6 +22,7 @@
     text-overflow:ellipsis;
 }
 .video_image {
+    min-width:100%;
     max-width:100%;
 }
 
@@ -91,7 +92,7 @@ td {
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
       <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')">
       {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
-          <img class="video_image" src="{% static 'LIVE.png' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
+          <img class="video_image" src="{% static 'LIVE3.png' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
           <noscript>
               <img class="video_image" src="{% static image_static %}">
           </noscript>
@@ -179,7 +180,8 @@ td {
 
   $(document).ready(function() {
 
-    $("img").unveil(2048, function() {
+
+    $("img").unveil(512, function() {
         console.log("debug: point 1.0");
         $(this).load(function() {
             console.log("debug: point 1.x");
@@ -188,6 +190,7 @@ td {
             $(this).height(tw*0.5625);
         });
     });
+
     console.log("debug: point 2");
     // $("img").trigger("unveil");
   });
