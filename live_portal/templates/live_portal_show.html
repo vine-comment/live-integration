@@ -83,10 +83,12 @@ td {
 <br/>
 <br/>
 <!-- Cycle through entries -->
-<!--  <div class="page-header">
-      <h2>{{tag}}</h2>
-  </div> -->
 {% endcomment %}
+{% if tag == '最近访问' %}
+<div class="page-header">
+      <h2>{{tag}}</h2>
+</div>
+{% endif %}
 
   {% for room in p_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">

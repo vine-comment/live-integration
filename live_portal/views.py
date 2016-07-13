@@ -93,7 +93,27 @@ class HomeView(TemplateView):
     template_name = 'live_portal_show.html'
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect("/show/")
+        if request.user.is_authenticated():
+            tag = u'最近访问'
+            user = get_profile(request.user)
+            #rooms_top = user.recent_visited.filter(modification_time__gte=timezone.now()+timedelta(hours=240)).order_by('audience_count').reverse()
+            rooms_top = user.recent_visited.all() #TODO: use through model, so we will have timestamp
+
+            page_index = request.GET.get('page', 1)
+            p = Paginator(rooms_top, 120)
+            try:
+                p_rooms = p.page(page_index)
+            except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+                p_rooms = p.page(1)
+            except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+                p_rooms = p.page(p.num_pages)
+
+            return render(request, self.template_name,
+                    {'tag':tag, 'p_rooms':p_rooms})
+        else:
+            return HttpResponseRedirect("/show/")
 
     def post(self, request, *args, **kwargs):
         username = request.POST['username']
