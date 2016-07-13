@@ -10,6 +10,8 @@ from models import *
 from datetime import timedelta
 from django.utils import timezone
 
+from registration.signals import user_registered
+
 
 def get_profile(user):
     try:
@@ -20,6 +22,23 @@ def get_profile(user):
         except:
             return None
 
+# This callback is called by a registration signal.
+# XXX move this function to a meaningful file.
+def register_with_profile(sender, user, request, **kwargs):
+    profile = Profile(user=user)
+    profile.is_human = bool(request.POST["is_human"])
+    profile.save()
+
+
+# This callback is called by a registration signal.
+# XXX move this function to a meaningful file.
+def register_with_audience_profile(sender, user, request, **kwargs):
+    profile = Audience(user=user)
+    profile.save()
+
+
+# Now a registered user is always a student.
+user_registered.connect(register_with_audience_profile)
 
 # ajax handler
 def enter_room(request, anchor):
