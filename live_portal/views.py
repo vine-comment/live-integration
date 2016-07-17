@@ -51,6 +51,16 @@ def enter_room(request, anchor):
 
     return HttpResponse(status=200)
 
+def follow_room(request, anchor):
+    #platform_anchor = request.POST['anchor']
+    if request.user.is_authenticated():
+        user = get_profile(request.user)
+        user.follows.add(anchor)
+        user.save()
+        print "xxxxxxx:", anchor
+
+    return HttpResponse(status=200)
+
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
     merged_tag_mapping = {
@@ -90,28 +100,39 @@ class ShowView(TemplateView):
                 {'tag':tag, 'p_rooms':p_rooms})
 
 class HomeView(TemplateView):
-    template_name = 'live_portal_show.html'
+    template_name = 'live_portal_home.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            tag = u'最近访问'
             user = get_profile(request.user)
             #rooms_top = user.recent_visited.filter(modification_time__gte=timezone.now()+timedelta(hours=240)).order_by('audience_count').reverse()
-            rooms_top = user.recent_visited.all() #TODO: use through model, so we will have timestamp
+            rooms_recent_visited_top = user.recent_visited.all() #TODO: use through model, so we will have timestamp
+            rooms_follows_top = user.follows.all() #TODO: use through model, so we will have timestamp
 
             page_index = request.GET.get('page', 1)
-            p = Paginator(rooms_top, 120)
+            p_recent_visited = Paginator(rooms_recent_visited_top, 120)
             try:
-                p_rooms = p.page(page_index)
+                p_recent_visited_rooms = p_recent_visited.page(page_index)
             except PageNotAnInteger:
             # If page is not an integer, deliver first page.
-                p_rooms = p.page(1)
+                p_recent_visited_rooms = p_recent_visited.page(1)
             except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
-                p_rooms = p.page(p.num_pages)
+                p_recent_visited_rooms = p_recent_visited.page(p_recent_visited.num_pages)
+
+            p_follows = Paginator(rooms_follows_top, 120)
+            try:
+                p_follows_rooms = p_follows.page(page_index)
+            except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+                p_follows_rooms = p_follows.page(1)
+            except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+                p_follows_rooms = p_follows.page(p_follows.num_pages)
 
             return render(request, self.template_name,
-                    {'tag':tag, 'p_rooms':p_rooms})
+                    {'p_recent_visited_rooms':p_recent_visited_rooms,
+                     'p_follows_rooms':p_follows_rooms})
         else:
             return HttpResponseRedirect("/show/")
 
