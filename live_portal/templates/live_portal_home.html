@@ -179,7 +179,7 @@ td {
 
   {% for room in p_follows_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
-      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')" onmouseover="$(this).find('#addtomine').show()" onmouseleave="$(this).find('#addtomine').hide()">
+      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')">
       {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
           <img class="video_image" src="{% static 'LIVE4.png' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
           <noscript>
@@ -191,17 +191,6 @@ td {
               {{room.room_name}}
           {% else %}
               并没有房间名。。。
-          {% endif %}
-      </p>
-      <p id="addtomine" style="display:none;position: absolute; top: 1%; right: 1%; font-weight: bold; font-size:200%; color: #fff; opacity: 0.9;">
-          {% if user.is_authenticated %}
-          <span title="加关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')" onclick="FollowRoom(this, '{{room.platform_anchor}}')">
-              <i class="fa fa-plus"></i>
-          </span>
-          {% else %}
-          <span href="{% url 'auth' %}" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')">
-              <i class="fa fa-plus"></i>
-          </span>
           {% endif %}
       </p>
       <p style="padding-top:5px;">
