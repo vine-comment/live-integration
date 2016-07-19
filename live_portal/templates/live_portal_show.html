@@ -112,7 +112,7 @@ td {
               <i class="fa fa-plus"></i>
           </span>
           {% else %}
-          <span href="{% url 'auth' %}" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')">
+          <span style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','{% url 'auth' %}')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')">
               <i class="fa fa-plus"></i>
           </span>
           {% endif %}
