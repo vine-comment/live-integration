@@ -108,7 +108,7 @@ td {
       </p>
       <p id="addtomine" style="display:none;position: absolute; top: 1%; right: 1%; font-weight: bold; font-size:200%; color: #fff; opacity: 0.9;">
           {% if user.is_authenticated %}
-          <span title="加关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')" onclick="FollowRoom(this, '{{room.platform_anchor}}')">
+          <span title="加关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')" onclick="event.preventDefault(); FollowRoom(this, '{{room.platform_anchor}}'); return false;">
               <i class="fa fa-plus"></i>
           </span>
           {% else %}
@@ -235,7 +235,7 @@ function popup_message(text)
 {
     $('#message-drawer .message-text').text(text);
     $('#message-drawer').show();
-    $('#message-drawer').fadeTo("fast", 1.0);
+    $('#message-drawer').fadeTo("slow", 1.0);
     $('#message-drawer').fadeTo(3000, 0, function(){
         $(this).hide();
     });
@@ -247,7 +247,9 @@ function EnterRoom(me, anchor)
 }
 function FollowRoom(me, anchor)
 {
-    $.get('/ajax/follow_room/'+anchor);
+    $.get('/ajax/follow_room/'+anchor, function(){
+        popup_message("关注成功~");
+    });
 }
 </script>
 {% endblock %}
