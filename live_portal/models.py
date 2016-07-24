@@ -1,5 +1,6 @@
 #coding:utf-8
 
+from models import *
 from django.db import models
 from django.conf import settings
 
@@ -62,13 +63,22 @@ class Profile(models.Model):
     class Meta:
         abstract = True
 
-
 class Audience(Profile):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="audience")
     # relationships
-    recent_visited = models.ManyToManyField(Room, related_name="audience_recent_visited")
-    follows = models.ManyToManyField(Room, related_name="audience_follows")
+    recent_visited = models.ManyToManyField(Room, through='Rvisit', related_name="audience_recent_visited")
+    follows = models.ManyToManyField(Room, through='Rfollow', related_name="audience_follows")
 
+class Rvisit(models.Model):
+    audience = models.ForeignKey(Audience)
+    room = models.ForeignKey(Room)
+    visit_time = models.DateTimeField(auto_now=True)
+    visit_count = models.IntegerField(default=0)
+
+class Rfollow(models.Model):
+    audience = models.ForeignKey(Audience)
+    room = models.ForeignKey(Room)
+    follow_time = models.DateTimeField(auto_now=True)
 
 class Anchor(Audience):
     pass

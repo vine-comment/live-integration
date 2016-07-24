@@ -31,6 +31,6 @@ urlpatterns = patterns('',
     url(r'^/?$', HomeView.as_view(), name='home'),
 
     # ajax
-    url(r'^ajax/enter_room/(?P<anchor>.*?)/?$', views.enter_room),
-    url(r'^ajax/follow_room/(?P<anchor>.*?)/?$', views.follow_room),
+    url(r'^ajax/enter_room/(?P<room>.*?)/?$', views.enter_room),
+    url(r'^ajax/follow_room/(?P<room>.*?)/?$', views.follow_room),
 )

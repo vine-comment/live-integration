@@ -23,7 +23,6 @@ def get_profile(user):
             return None
 
 # This callback is called by a registration signal.
-# XXX move this function to a meaningful file.
 def register_with_profile(sender, user, request, **kwargs):
     profile = Profile(user=user)
     profile.is_human = bool(request.POST["is_human"])
@@ -31,7 +30,6 @@ def register_with_profile(sender, user, request, **kwargs):
 
 
 # This callback is called by a registration signal.
-# XXX move this function to a meaningful file.
 def register_with_audience_profile(sender, user, request, **kwargs):
     profile = Audience(user=user)
     profile.save()
@@ -41,13 +39,17 @@ def register_with_audience_profile(sender, user, request, **kwargs):
 user_registered.connect(register_with_audience_profile)
 
 # ajax handler
-def enter_room(request, anchor):
-    #platform_anchor = request.POST['anchor']
+def enter_room(request, room):
     if request.user.is_authenticated():
-        user = get_profile(request.user)
-        user.recent_visited.add(anchor)
-        user.save()
-        print "xxxxxxx:", anchor
+        audience = get_profile(request.user)
+        room = Room.objects.filter(platform_anchor=room)[0]
+        rv = Rvisit.objects.get_or_create(audience=audience, room=room)[0]
+        rv.visit_count += 1
+        rv.save()
+        count = audience.recent_visited.count()
+        if count >= 10:
+            stale = Rvisit.objects.all().order_by('visit_time')[0]
+            stale.delete()
 
     return HttpResponse(status=200)
 
@@ -57,7 +59,6 @@ def follow_room(request, anchor):
         user = get_profile(request.user)
         user.follows.add(anchor)
         user.save()
-        print "xxxxxxx:", anchor
 
     return HttpResponse(status=200)
 
@@ -110,7 +111,7 @@ class HomeView(TemplateView):
             rooms_follows_top = user.follows.all() #TODO: use through model, so we will have timestamp
 
             page_index = request.GET.get('page', 1)
-            p_recent_visited = Paginator(rooms_recent_visited_top, 120)
+            p_recent_visited = Paginator(rooms_recent_visited_top, 12)
             try:
                 p_recent_visited_rooms = p_recent_visited.page(page_index)
             except PageNotAnInteger:
@@ -120,7 +121,7 @@ class HomeView(TemplateView):
             # If page is out of range (e.g. 9999), deliver last page of results.
                 p_recent_visited_rooms = p_recent_visited.page(p_recent_visited.num_pages)
 
-            p_follows = Paginator(rooms_follows_top, 120)
+            p_follows = Paginator(rooms_follows_top, 12)
             try:
                 p_follows_rooms = p_follows.page(page_index)
             except PageNotAnInteger:

@@ -241,13 +241,13 @@ function popup_message(text)
     });
 };
 
-function EnterRoom(me, anchor)
+function EnterRoom(me, room)
 {
-    $.get('/ajax/enter_room/'+anchor);
+    $.get('/ajax/enter_room/'+room);
 }
-function FollowRoom(me, anchor)
+function FollowRoom(me, room)
 {
-    $.get('/ajax/follow_room/'+anchor, function(){
+    $.get('/ajax/follow_room/'+room, function(){
         popup_message("关注成功~");
     });
 }
