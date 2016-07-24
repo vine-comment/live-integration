@@ -33,4 +33,5 @@ urlpatterns = patterns('',
     # ajax
     url(r'^ajax/enter_room/(?P<room>.*?)/?$', views.enter_room),
     url(r'^ajax/follow_room/(?P<room>.*?)/?$', views.follow_room),
+    url(r'^ajax/unfollow_room/(?P<room>.*?)/?$', views.unfollow_room),
 )

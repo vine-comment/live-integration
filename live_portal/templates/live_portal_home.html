@@ -105,15 +105,9 @@ td {
           {% endif %}
       </p>
       <p id="addtomine" style="display:none;position: absolute; top: 1%; right: 1%; font-weight: bold; font-size:200%; color: #fff; opacity: 0.9;">
-          {% if user.is_authenticated %}
-          <span title="加关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')" onclick="event.preventDefault(); FollowRoom(this, '{{room.platform_anchor}}'); return false;">
-              <i class="fa fa-plus"></i>
+          <span title="加关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#').attr('onclick','')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}').attr('onclick','EnterRoom(this, \'{{room.platform_anchor}}\')')" onclick="event.preventDefault(); FollowRoom(this, '{{room.platform_anchor}}'); return false;">
+              <i class="fa fa-save"></i>
           </span>
-          {% else %}
-          <span style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','{% url 'auth' %}')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}')">
-              <i class="fa fa-plus"></i>
-          </span>
-          {% endif %}
       </p>
       <p style="padding-top:5px;">
           <table style="font-size:80%" width="100%" cellpadding="1px" cellspacing="0">
@@ -131,9 +125,6 @@ td {
               </tr>
           </table>
       </p>
-      {% comment %}
-      <div>{% include 'crike_django/lesson_result.html' %}</div>
-      {% endcomment %}
       {% if room.audience_count >= 10000 %}
           {% with room.audience_count|mod:10000|div:1000 as remain %}
           {% if remain == 0 %}
@@ -179,7 +170,7 @@ td {
 
   {% for room in p_follows_rooms.object_list|dictsortreversed:"audience_count" %}
   <div class="col-6 col-xs-6 col-sm-6 col-lg-3">
-      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')">
+      <a class="thumbnail" style="width:100%;cursor:pointer" title="进入直播间" target="_blank" href="{{room.platform_prefix_url}}{{room.url}}" onclick="EnterRoom(this, '{{room.platform_anchor}}')" onmouseover="$(this).find('#delfrommine').show()" onmouseleave="$(this).find('#delfrommine').hide()">
       {% with 'images/video_snapshots/'|add:room.video_img_local_path as image_static %}
           <img class="video_image" src="{% static 'LIVE4.png' %}" data-src="{% static image_static %}" onload="/*OnImageLoad(event);*/">
           <noscript>
@@ -192,6 +183,11 @@ td {
           {% else %}
               并没有房间名。。。
           {% endif %}
+      </p>
+      <p id="delfrommine" style="display:none;position: absolute; top: 1%; right: 1%; font-weight: bold; font-size:200%; color: #fff; opacity: 0.9;">
+          <span title="取消关注" style="cursor:pointer;" onmouseover="$(this).parents('.thumbnail').attr('href','#').attr('onclick','')" onmouseleave="$(this).parents('.thumbnail').attr('href','{{room.platform_prefix_url}}{{room.url}}').attr('onclick','EnterRoom(this, \'{{room.platform_anchor}}\')')" onclick="UnfollowRoom(this, '{{room.platform_anchor}}'); return false;">
+              <i class="fa fa-times"></i>
+          </span>
       </p>
       <p style="padding-top:5px;">
           <table style="font-size:80%" width="100%" cellpadding="1px" cellspacing="0">
@@ -325,6 +321,12 @@ function FollowRoom(me, anchor)
 {
     $.get('/ajax/follow_room/'+anchor, function(){
         popup_message("关注成功~");
+    });
+}
+function UnfollowRoom(me, anchor)
+{
+    $.get('/ajax/unfollow_room/'+anchor, function(){
+        popup_message("已取消关注~");
     });
 }
 </script>

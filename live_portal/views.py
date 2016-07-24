@@ -53,15 +53,27 @@ def enter_room(request, room):
 
     return HttpResponse(status=200)
 
-def follow_room(request, anchor):
-    #platform_anchor = request.POST['anchor']
+def follow_room(request, room):
     if request.user.is_authenticated():
-        user = get_profile(request.user)
-        user.follows.add(anchor)
-        user.save()
+        audience = get_profile(request.user)
+        room = Room.objects.filter(platform_anchor=room)[0]
+        rv,ret = Rfollow.objects.get_or_create(audience=audience, room=room)
+        rv.save()
 
     return HttpResponse(status=200)
 
+def unfollow_room(request, room):
+    if request.user.is_authenticated():
+        audience = get_profile(request.user)
+        room = Room.objects.filter(platform_anchor=room)[0]
+        rv = Rfollow.objects.filter(audience=audience, room=room)
+        if rv:
+            rv.delete()
+            return HttpResponse(status=200)
+
+    return HttpResponse(status=404)
+
+# views
 class ShowView(TemplateView):
     template_name = 'live_portal_show.html'
     merged_tag_mapping = {
