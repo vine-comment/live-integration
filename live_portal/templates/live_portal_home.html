@@ -205,9 +205,6 @@ td {
               </tr>
           </table>
       </p>
-      {% comment %}
-      <div>{% include 'crike_django/lesson_result.html' %}</div>
-      {% endcomment %}
       {% if room.audience_count >= 10000 %}
           {% with room.audience_count|mod:10000|div:1000 as remain %}
           {% if remain == 0 %}
