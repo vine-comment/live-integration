@@ -6,10 +6,13 @@ from django.contrib.auth.decorators import login_required
 from registration.backends.simple.views import RegistrationView
 from forms import *
 
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
+    # admin
+    url(r'^admin/', include(admin.site.urls)),
+
     # favicon
     url(r'^favicon\.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'favicon/1.ico')),
 
