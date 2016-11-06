@@ -96,7 +96,7 @@ class ShowView(TemplateView):
         else:
             rooms = Room.objects.filter(tag=tag)
 
-        rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7, minutes=35)).order_by('audience_count').reverse()
+        rooms_top = rooms.filter(modification_time__gte=timezone.now()+timedelta(hours=7, minutes=49)).order_by('audience_count').reverse()
 
         page_index = request.GET.get('page', 1)
         p = Paginator(rooms_top, 120)
