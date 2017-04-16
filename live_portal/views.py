@@ -119,8 +119,12 @@ class HomeView(TemplateView):
         if request.user.is_authenticated():
             user = get_profile(request.user)
             #rooms_top = user.recent_visited.filter(modification_time__gte=timezone.now()+timedelta(hours=240)).order_by('audience_count').reverse()
-            rooms_recent_visited_top = user.recent_visited.all() #TODO: use through model, so we will have timestamp
-            rooms_follows_top = user.follows.all() #TODO: use through model, so we will have timestamp
+            if user is None:
+                rooms_recent_visited_top = []
+                rooms_follows_top = []
+            else:
+                rooms_recent_visited_top = user.recent_visited.all() #TODO: use through model, so we will have timestamp
+                rooms_follows_top = user.follows.all() #TODO: use through model, so we will have timestamp
 
             page_index = request.GET.get('page', 1)
             p_recent_visited = Paginator(rooms_recent_visited_top, 12)
